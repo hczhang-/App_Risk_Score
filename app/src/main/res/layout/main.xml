@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/main_layout">
+    <include layout="@layout/title_bar" />
+    <LinearLayout 
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content">
+        <TextView 
+            style="@style/tab"
+            android:id="@+id/tab_category"
+            android:text="@string/category_tab_name"
+            />
+       	<TextView 
+            style="@style/tab"
+            android:id="@+id/tab_application"
+            android:text="@string/application_tab_name"
+ 			/>
+       	<TextView 
+            style="@style/tab"
+            android:id="@+id/tab_permission"
+            android:text="@string/permission_tab_name"
+            />
+    </LinearLayout>
+    <FrameLayout
+        android:id="@+id/tabs"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <ListView 
+            android:id="@+id/listviewcategory"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+        <ListView 
+            android:id="@+id/listviewapplication"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+        <ListView 
+            android:id="@+id/listviewpermission"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+    </FrameLayout>
+</LinearLayout>

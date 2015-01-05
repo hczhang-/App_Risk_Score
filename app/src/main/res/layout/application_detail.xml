@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical">
+  <include layout="@layout/title_bar" />
+  <RelativeLayout android:layout_width="fill_parent"
+  				android:layout_height="wrap_content"
+  				android:orientation="horizontal">
+	  <ImageButton android:id="@+id/application_detail_manage_button"
+	  		  	android:layout_width="wrap_content"
+	  		  	android:layout_height="wrap_content"
+	  		  	android:background="@null"
+	  		  	android:layout_alignParentRight="true" />
+	  <TextView android:id="@+id/application_detail_label"
+	  			style="@style/sub_title"
+	  			android:layout_width="wrap_content"
+	  			android:layout_toLeftOf="@id/application_detail_manage_button"
+	  			android:gravity="left"
+	  			android:layout_alignParentLeft="true" />
+  </RelativeLayout>
+  <LinearLayout 
+      android:layout_width="fill_parent"
+      android:layout_height="wrap_content"
+      android:orientation="horizontal">
+	  <TextView style="@style/param_title"
+	      		android:layout_width="wrap_content"
+	      		android:text="@string/application_detail_package" />
+	  <TextView style="@style/param_title"
+	      		android:id="@+id/application_detail_system"
+	      		android:layout_width="wrap_content"
+	      		android:textColor="#FF0000"
+	      		android:text="@string/application_detail_system" />
+  </LinearLayout>
+  <TextView android:id="@+id/application_detail_name"
+  			style="@style/normal_text" />
+  <TextView style="@style/param_title"
+      		android:text="@string/application_detail_version" />
+  <TextView android:id="@+id/application_detail_version"
+  			style="@style/normal_text" />
+  <TextView style="@style/param_title"
+      		android:text="@string/application_detail_permission_count" />
+  <TextView android:id="@+id/application_detail_permission_count"
+  			style="@style/normal_text" />
+  <TextView style="@style/param_title"
+  			android:text="@string/application_detail_permission_used" />
+  <ListView android:id="@+id/application_detail_permission_list"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent" />
+</LinearLayout>
