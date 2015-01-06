@@ -8,7 +8,7 @@ import android.content.res.Resources;
 
 public class Tools {
     // Package for the application
-    private final static String packageName = "com.carlocriniti.android.permission_explorer";
+    private final static String packageName = "com.example.hczhang.appriskscore";
     // Application database
     public static Database database;
     /*
