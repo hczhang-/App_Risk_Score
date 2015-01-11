@@ -16,20 +16,17 @@ import android.os.AsyncTask;
 import java.util.List;
 
 public class Database {
+
     // Application context
     private Context context;
 
     // Progress bar for long operations
     private ProgressDialog progressDialog;
 
-    // Database
+    // create and manage the database
     public SQLiteDatabase database;
 
-    /*
-     * Database
-     * Recovery program context and creation
-     * Or opening the database.     
-     */
+
     public Database (Context context)
     {
         this.context = context;
@@ -37,14 +34,13 @@ public class Database {
     }
 
     /*
-     * IsUpToDate
      * Checks if the database is up to date
      */
     public void isUpToDate()
     {
-        // Configuring a progress bar
+        // A spinner progress bar
         progressDialog = new ProgressDialog(context);
-        progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        progressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progressDialog.setMessage(context.getString(R.string.dialog_uptodate_text));
         progressDialog.setCancelable(false);
 

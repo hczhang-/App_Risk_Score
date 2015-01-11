@@ -8,7 +8,7 @@
     <string name="application_tab_name">Applications</string>
     <string name="permission_tab_name">Permissions</string>
     <string name="dialog_update_text">Scanning device, please wait.</string>
-    <string name="dialog_uptodate_text">Checking changes, please wait.</string>
+    <string name="dialog_uptodate_text">Checking the updated data</string>
     <string name="application_detail_nodata">No data received</string>
     <string name="application_detail_package">Package</string>
     <string name="application_detail_version">Version (code / name)</string>
