@@ -12,8 +12,9 @@
     <string name="application_detail_nodata">No data received</string>
     <string name="application_detail_package">Package</string>
     <string name="application_detail_version">Version (code / name)</string>
-    <string name="application_detail_permission_count">Permissions count</string>
-    <string name="application_detail_permission_used">Permissions used</string>
+    <string name="application_detail_permission_count">Permissions Count</string>
+    <string name="application_detail_risk_score">Risk Score</string>
+    <string name="application_detail_permission_used">Permissions Used</string>
     <string name="application_detail_manager_unavailable">Function available only for Android >= 2.3</string>
     <string name="application_detail_system">System</string>
     <string name="permission_detail_nodata">No data received</string>

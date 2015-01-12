@@ -43,6 +43,13 @@
       		android:text="@string/application_detail_permission_count" />
   <TextView android:id="@+id/application_detail_permission_count"
   			style="@style/normal_text" />
+
+  <!--Added by hczhang-->
+  <TextView android:text="@string/application_detail_risk_score"
+            style="@style/param_title" />
+  <TextView android:id="@+id/application_detail_risk_score"
+            style="@style/normal_text" />
+  <!---->
   <TextView style="@style/param_title"
   			android:text="@string/application_detail_permission_used" />
   <ListView android:id="@+id/application_detail_permission_list"

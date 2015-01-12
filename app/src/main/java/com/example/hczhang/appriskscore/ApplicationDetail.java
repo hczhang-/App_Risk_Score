@@ -45,7 +45,7 @@ public class ApplicationDetail extends Activity {
         Intent thisIntent = getIntent();
         String applicationId = Long.toString(thisIntent.getExtras().getLong("applicationId"));
 
-        // Data recovery
+        // cursor provides random read-write access to the result set returned by a database query.
         Cursor data = Tools.database.database.query("application", new String[]{"label", "name", "version_code", "version_name", "system"}, "id = ?", new String[]{applicationId}, null, null, null);
         if (data.getCount() == 1) {
             data.moveToFirst();
@@ -85,7 +85,7 @@ public class ApplicationDetail extends Activity {
                 }
             });
 
-            // Retrieving the number of used and display permissions
+            // Retrieving the number of used and display permissions by querying the application ID
             data = Tools.database.database.rawQuery("SELECT Count(*) AS number " +
                     "FROM relation_application_permission " +
                     "WHERE application = ?;", new String[]{applicationId});

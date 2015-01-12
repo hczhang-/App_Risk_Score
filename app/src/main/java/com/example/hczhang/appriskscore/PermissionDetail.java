@@ -42,15 +42,17 @@ public class PermissionDetail extends Activity {
         Intent thisIntent = getIntent();
         String permissionId = Long.toString(thisIntent.getExtras().getLong("permissionId"));
 
-        // Retrieving information about the permission
+        // Retrieving information of the permission
+        // find the column permission in database
         Cursor data = Tools.database.database.query("permission", new String[]{"name"}, "id = ?", new String[]{permissionId}, null, null, null);
         if (data.getCount() == 1) {
             data.moveToFirst();
 
-            // Viewing Information
+            // Display the permission detail by id
             ((TextView)findViewById(R.id.permission_detail_name)).setText(data.getString(0));
             ((TextView)findViewById(R.id.permission_detail_description)).setText(Tools.getStringResourceByName("permission_" + data.getString(0), getResources(), this));
 
+            // Used to help create Preference hierarchies from activities or XML
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
             boolean hideSystemApp = pref.getBoolean("hide_system_app", false); // Hide system applications
 
