@@ -98,6 +98,7 @@ public class ApplicationDetail extends Activity {
             int riskScore = 0;
             //int nameColumn = 2;
             int i = 0;
+            int seventhRuleState = 0;
             //riskScore = "100";
             // ((TextView)findViewById(R.id.application_detail_risk_score)).setText(riskScore);
             Cursor permissionQuery = Tools.database.database.rawQuery("SELECT permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
@@ -105,12 +106,22 @@ public class ApplicationDetail extends Activity {
             permissionQuery.moveToFirst();
             while (permissionQuery.isAfterLast() == false)
             {
-                //permissionQuery.getString(0);
-             if (new String("ACCESS_NETWORK_STATE").equals(permissionQuery.getString(0)))
+
+             if (new String("SEND_SMS").equals(permissionQuery.getString(0)))
              {
-                 riskScore = 100;
+                 seventhRuleState++;
+             }
+             if (new String("WRITE_SMS").equals(permissionQuery.getString(0)))
+             {
+                 seventhRuleState++;
              }
                 permissionQuery.moveToNext();
+             }
+
+            // Check if the state break the Security Rule
+            if (seventhRuleState >= 2)
+            {
+                riskScore = 100;
             }
 
             ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(riskScore));
