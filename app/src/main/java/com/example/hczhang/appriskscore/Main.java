@@ -1,5 +1,25 @@
 package com.example.hczhang.appriskscore;
 
+/**
+ * Created by hczhang on 05/01/15.
+ *
+ * About this project:
+ * My project start with a open source app source code named by android permission explorer,
+ * developed by Carlo Criniti.
+ * This is the source code link. https://code.google.com/p/android-permission-explorer/source/browse/
+ * Thanks for him to provide me the source code for my research project
+ * It is so good to be used as this project's start point.
+ * After I understand the whole structure of this source code and rewrite all the comments of the
+ * code (Since originally the comments is French)
+ * Originally, the app can scan all the apps on the phone, get the apps' name , version, categories
+ * and all the permission information. Then the app put all the data into a light SQL database
+ * locally stored in the phone. The app can get very detailed information about permissions and well
+ * classified, but has not yet done anything for the permission issue (analyse, generating model, etc.)
+ * So this app is just right for me to implement the risk score method.
+ *
+ * All of my work will followed by // Added by hczhang in both java class and xml file
+ */
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;

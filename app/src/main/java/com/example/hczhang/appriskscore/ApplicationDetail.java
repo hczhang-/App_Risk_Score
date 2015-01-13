@@ -92,6 +92,12 @@ public class ApplicationDetail extends Activity {
             data.moveToFirst();
             ((TextView)findViewById(R.id.application_detail_permission_count)).setText(data.getString(0));
 
+            // Added by hczhang
+            // Risk Score Method
+            String riskScore;
+            riskScore = "100";
+            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(riskScore);
+
             // Retrieving permissions and creating the list
             Cursor permissionListCursor = Tools.database.database.rawQuery("SELECT permission.id AS _id, permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
             startManagingCursor(permissionListCursor);
