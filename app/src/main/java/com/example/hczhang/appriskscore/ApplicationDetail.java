@@ -95,20 +95,31 @@ public class ApplicationDetail extends Activity {
             // ---------------------------------------------
             // Added by hczhang
             // Risk Score Method
-            String riskScore;
-            int nameColumn = 0;
+            int riskScore = 0;
+            //int nameColumn = 2;
             int i = 0;
-            riskScore = "100";
+            //riskScore = "100";
             // ((TextView)findViewById(R.id.application_detail_risk_score)).setText(riskScore);
             Cursor permissionQuery = Tools.database.database.rawQuery("SELECT permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
 
             permissionQuery.moveToFirst();
+            while (permissionQuery.isAfterLast() == false)
+            {
+                //permissionQuery.getString(0);
+             if (new String("ACCESS_NETWORK_STATE").equals(permissionQuery.getString(0)))
+             {
+                 riskScore = 100;
+             }
+                permissionQuery.moveToNext();
+            }
+
+            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(riskScore));
             //permissionQuery.moveToNext();
 //            while (permissionQuery.isAfterLast() == false)
 //            {
 //
 //                permissionQuery.moveToNext();
-//                nameColumn = permissionQuery.getColumnIndex("ACCESS_NETWORK_STATE");
+//               nameColumn = permissionQuery.getColumnIndex("ACCESS_COARSE_LOCATION");
 //            }
 //            permissionQuery.moveToFirst();
 //            for(permissionQuery.moveToFirst();!permissionQuery.isAfterLast();permissionQuery.moveToNext())
@@ -120,8 +131,9 @@ public class ApplicationDetail extends Activity {
 //                i++;
 //
 //            }
- //           ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(nameColumn));
-          ((TextView)findViewById(R.id.application_detail_risk_score)).setText(permissionQuery.getString(0));
+
+//            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(nameColumn));
+            //((TextView)findViewById(R.id.application_detail_risk_score)).setText(permissionQuery.getString(0));
             // ----------------------------------------------------------------------------------------------
 
             // Retrieving permissions and creating the list
