@@ -92,14 +92,44 @@ public class ApplicationDetail extends Activity {
             data.moveToFirst();
             ((TextView)findViewById(R.id.application_detail_permission_count)).setText(data.getString(0));
 
+            // ---------------------------------------------
             // Added by hczhang
             // Risk Score Method
             String riskScore;
+            int nameColumn = 0;
+            int i = 0;
             riskScore = "100";
-            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(riskScore);
+            // ((TextView)findViewById(R.id.application_detail_risk_score)).setText(riskScore);
+            Cursor permissionQuery = Tools.database.database.rawQuery("SELECT permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
+
+            permissionQuery.moveToFirst();
+            //permissionQuery.moveToNext();
+//            while (permissionQuery.isAfterLast() == false)
+//            {
+//
+//                permissionQuery.moveToNext();
+//                nameColumn = permissionQuery.getColumnIndex("ACCESS_NETWORK_STATE");
+//            }
+//            permissionQuery.moveToFirst();
+//            for(permissionQuery.moveToFirst();!permissionQuery.isAfterLast();permissionQuery.moveToNext())
+//            {
+
+//                if (nameColumn != -1) {
+//                    break;
+//                }
+//                i++;
+//
+//            }
+ //           ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(nameColumn));
+          ((TextView)findViewById(R.id.application_detail_risk_score)).setText(permissionQuery.getString(0));
+            // ----------------------------------------------------------------------------------------------
 
             // Retrieving permissions and creating the list
             Cursor permissionListCursor = Tools.database.database.rawQuery("SELECT permission.id AS _id, permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
+
+            // Added by hczhang
+            //((TextView)findViewById(R.id.application_detail_risk_score)).setText(permissionListCursor.getColumnName(0));
+
             startManagingCursor(permissionListCursor);
             ListAdapter permissionAdapter = new SimpleCursorAdapter(this, R.layout.permission_list_item, permissionListCursor, new String[] {"name"}, new int[]{R.id.listviewpermissiontext});
             permissionList = (ListView)findViewById(R.id.application_detail_permission_list);
