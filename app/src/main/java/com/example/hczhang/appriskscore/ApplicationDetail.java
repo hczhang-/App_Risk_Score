@@ -92,37 +92,129 @@ public class ApplicationDetail extends Activity {
             data.moveToFirst();
             ((TextView)findViewById(R.id.application_detail_permission_count)).setText(data.getString(0));
 
-            // ---------------------------------------------
+// -------------------------------------------------------------------------------------------------
             // Added by hczhang
-            // Risk Score Method
+            // Manually Risk Score Method based on Kirin Rules
             int riskScore = 0;
-            //int nameColumn = 2;
-            int i = 0;
+
+            int firstRuleState = 0;
+            int secondRuleState = 0;
+            int thirdRuleState = 0;
+            int forthRuleState = 0;
+            int fifthRuleState = 0;
+            int sixthRuleState = 0;
             int seventhRuleState = 0;
-            //riskScore = "100";
-            // ((TextView)findViewById(R.id.application_detail_risk_score)).setText(riskScore);
+            int eighthRuleState = 0;
+            int ninthRuleState = 0;
+
+
             Cursor permissionQuery = Tools.database.database.rawQuery("SELECT permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
 
             permissionQuery.moveToFirst();
             while (permissionQuery.isAfterLast() == false)
             {
+                if (new String("ACCESS_COARSE_LOCATION").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 5
+                    fifthRuleState++;
+                }
 
-             if (new String("SEND_SMS").equals(permissionQuery.getString(0)))
-             {
-                 seventhRuleState++;
-             }
-             if (new String("WRITE_SMS").equals(permissionQuery.getString(0)))
-             {
-                 seventhRuleState++;
-             }
-                permissionQuery.moveToNext();
-             }
+                if (new String("ACCESS_FINE_LOCATION").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 4
+                    forthRuleState++;
+                }
+
+                if (new String("INSTALL_SHORTCUT").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 8
+                    eighthRuleState++;
+                }
+
+                if (new String("INTERNET").equals(permissionQuery.getString(0)))
+                {
+                    //Rule 2, 3, 4, 5
+                    secondRuleState++;
+                    thirdRuleState++;
+                    forthRuleState++;
+                    fifthRuleState++;
+                }
+
+                if (new String("PHONE_STATE").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 2
+                    secondRuleState++;
+                }
+
+                if (new String("PROCESS_OUTGOING_CALL").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 3
+                    thirdRuleState++;
+                }
+
+                if (new String("RECEIVE_BOOT_COMPLETE").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 4, 5
+                    forthRuleState++;
+                    fifthRuleState++;
+                }
+
+                if (new String("RECEIVE_SMS").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 6
+                    sixthRuleState++;
+                }
+                if (new String("RECORD_AUDIO").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 2, 3
+                    secondRuleState++;
+                    thirdRuleState++;
+                }
+
+                if (new String("SEND_SMS").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 7
+                    seventhRuleState++;
+                }
+
+                if (new String("SET_DEBUG_APP").equals(permissionQuery.getString(0)))
+                {
+                    //Rule 1
+                    firstRuleState++;
+                }
+
+                if (new String("SET_PREFERRED_APPLICATION").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 9
+                    ninthRuleState++;
+                }
+
+                if (new String("UNINSTALL_SHORTCUT").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 8
+                    eighthRuleState++;
+                }
+
+                if (new String("WRITE_SMS").equals(permissionQuery.getString(0)))
+                {
+                    // Rule 6, 7
+                    sixthRuleState++;
+                    seventhRuleState++;
+                }
+                    permissionQuery.moveToNext();
+            }
 
             // Check if the state break the Security Rule
-            if (seventhRuleState >= 2)
+            if (firstRuleState != 0 || secondRuleState >= 3 || thirdRuleState >= 3 || forthRuleState >= 3 ||
+                    fifthRuleState >=3 || sixthRuleState >= 2 || seventhRuleState >= 2 || eighthRuleState >= 2 ||
+                    ninthRuleState != 0)
             {
                 riskScore = 100;
             }
+            else {
+                riskScore = permissionQuery.getCount();
+            }
+
 
             ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(riskScore));
             //permissionQuery.moveToNext();
@@ -145,7 +237,7 @@ public class ApplicationDetail extends Activity {
 
 //            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(nameColumn));
             //((TextView)findViewById(R.id.application_detail_risk_score)).setText(permissionQuery.getString(0));
-            // ----------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------
 
             // Retrieving permissions and creating the list
             Cursor permissionListCursor = Tools.database.database.rawQuery("SELECT permission.id AS _id, permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
