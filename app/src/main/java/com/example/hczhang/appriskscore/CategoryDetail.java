@@ -67,7 +67,7 @@ public class CategoryDetail extends Activity {
             ((TextView)findViewById(R.id.category_detail_application_count)).setText(data.getString(0));
 
             // Preference for display applications, name or package
-            boolean applicationName = pref.getBoolean("application_name", true); // Affiche true:label / false:package
+            boolean applicationName = pref.getBoolean("application_name", true); //  true:label / false:package
 
             String nameField;
             if (applicationName)
