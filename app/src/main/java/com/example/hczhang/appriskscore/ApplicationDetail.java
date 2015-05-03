@@ -44,6 +44,92 @@ public class ApplicationDetail extends Activity {
             "LOCATION"};
 
 
+    // Permissions of Identity
+    private static final String[] permissionPhoneIdentity = {"AUTHENTICATE_ACCOUNTS",
+            "GET_ACCOUNTS",
+            "MANAGE_ACCOUNTS",
+            "MANAGE_APP_TOKENS",
+            "READ_OWNER_DATA",
+            "READ_PROFILE",
+            "USE_CREDENTIALS",
+            "WRITE_OWNER_DATA",
+            "WRITE_PROFILE"};
+
+    // Permissions of messages
+    private static final String[] permissionMessages = {"BROADCAST_SMS",
+            "DELETE_SMS",
+            "READ_SMS",
+            "READ_MMS",
+            "RECEIVE_EMAIL_NOTIFICATION",
+            "RECEIVE_MMS",
+            "RECEIVE_SMS",
+            "RECEIVE_WAP_PUSH",
+            "WRITE_SMS"};
+
+    // Permissions of contacts
+    private static final String[] permissionContacts = {"READ_CONTACTS",
+            "WRITE_CONTACTS"};
+
+    // Permissions of calender
+    private static final String[] permissionCalendar = {"READ_CALENDAR",
+            "READ_DIARY",
+            "WRITE_CALENDAR"};
+
+    // Permissions accessing payment
+    private static final String[] permissionPaying = {"CALL",
+            "CALL_PHONE",
+            "CALL_PRIVILEGED",
+            "SEND_SMS",
+            "SEND_SMS_NO_CONFIRMATION"};
+
+    // Permissions of system
+    private static final String[] permissionSystem = {"ACCESS_MTP",
+            "BLUETOOTH_ADMIN",
+            "BRICK",
+            "CHANGE_CONFIGURATION",
+            "CHANGE_NETWORK_STATE",
+            "CHANGE_WIFI_STATE",
+            "CHANGE_WIMAX_STATE",
+            "CLEAR_APP_USER_DATA",
+            "CONFIRM_FULL_BACKUP",
+            "DELETE_CACHE_FILES",
+            "DELETE_PACKAGES",
+            "DEVICE_POWER",
+            "DIAGNOSTIC",
+            "DISABLE_KEYGUARD",
+            "DUMP",
+            "FACTORY_TEST",
+            "FORCE_STOP_PACKAGES",
+            "GET_TASKS",
+            "INSTALL_PACKAGES",
+            "INTERNAL_SYSTEM_WINDOW",
+            "KILL_BACKGROUND_PROCESSES",
+            "MANAGE_USB",
+            "MODIFY_AUDIO_SETTINGS",
+            "MODIFY_NETWORK_ACCOUNTING",
+            "MODIFY_PHONE_STATE",
+            "READ_FRAME_BUFFER",
+            "READ_LOGS",
+            "READ_SETTINGS",
+            "READ_SYNC_SETTINGS",
+            "READ_SYNC_STATS",
+            "READ_NETWORK_USAGE_HISTORY",
+            "READ_USER_DICTIONARY",
+            "REBOOT",
+            "SET_POINTER_SPEED",
+            "SET_PROCESS_LIMIT",
+            "SET_TIME",
+            "SET_TIME_ZONE",
+            "SHUTDOWN",
+            "WAKE_LOCK",
+            "WRITE_APN_SETTINGS",
+            "WRITE_MEDIA_STORAGE",
+            "WRITE_SECURE_SETTINGS",
+            "WRITE_SETTINGS",
+            "WRITE_SYNC_SETTINGS"};
+
+
+
     /*
      * onCreate:
      * Executed in the creation of the activity. Recover
@@ -126,6 +212,12 @@ public class ApplicationDetail extends Activity {
 
             // Category Value
             int CategoryLocation = 0;
+            int CategoryPhoneIdentity = 0;
+            int CategoryMessages = 0;
+            int CategoryContacts = 0;
+            int CategoryCalendar = 0;
+            int CategoryPaying = 0;
+            int CategorySystem = 0;
 
 
             Cursor permissionQuery = Tools.database.database.rawQuery("SELECT permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
@@ -233,7 +325,6 @@ public class ApplicationDetail extends Activity {
             }
             else {
 
-
                 // ---------------------------------------------------------------------------------
                 // Added by hczhang
                 // Category Factor
@@ -243,14 +334,42 @@ public class ApplicationDetail extends Activity {
                         CategoryLocation++;
 
                     }
+                    if (Arrays.asList(permissionPhoneIdentity).contains(permissionQuery.getString(0))) {
+                        CategoryPhoneIdentity++;
+
+                    }
+                    if (Arrays.asList(permissionMessages).contains(permissionQuery.getString(0))) {
+                        CategoryMessages++;
+
+                    }
+                    if (Arrays.asList(permissionContacts).contains(permissionQuery.getString(0))) {
+                        CategoryContacts++;
+
+                    }
+                    if (Arrays.asList(permissionCalendar).contains(permissionQuery.getString(0))) {
+                        CategoryCalendar++;
+
+                    }
+                    if (Arrays.asList(permissionPaying).contains(permissionQuery.getString(0))) {
+                        CategoryPaying++;
+
+                    }
+                    if (Arrays.asList(permissionSystem).contains(permissionQuery.getString(0))) {
+                        CategorySystem++;
+
+                    }
                     permissionQuery.moveToNext();
+
                 }
                 // ---------------------------------------------------------------------------------
-                riskScore = permissionQuery.getCount() + CategoryLocation*2;
+                riskScore = permissionQuery.getCount()/2 + (CategoryLocation + CategoryPhoneIdentity
+                        + CategoryMessages + CategoryContacts + CategoryCalendar + CategoryPaying +
+                        CategorySystem) * 2;
             }
 
 
-            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(riskScore));
+            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.
+                    toString(riskScore));
             //permissionQuery.moveToNext();
 //            while (permissionQuery.isAfterLast() == false)
 //            {
