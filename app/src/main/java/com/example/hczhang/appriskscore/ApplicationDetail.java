@@ -3,7 +3,6 @@ package com.example.hczhang.appriskscore;
 /**
  * Created by hczhang on 05/01/15.
  */
-
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -15,23 +14,36 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
-import com.gc.android.market.api.MarketSession;
-import com.gc.android.market.api.model.Market;
-
+import java.util.Arrays;
+//import com.example.hczhang.appriskscore.*;
 
 public class ApplicationDetail extends Activity {
     private ListView permissionList; // Graphical component managing the permissions list
     private ImageButton manageButton; // open the application manager button
     private String packageName;
     private Context context;
+
+
+    // Permissions of Location
+    private static final String[] permissionLocation = {"ACCESS_ASSISTED_GPS",
+            "ACCESS_COARSE_LOCATION",
+            "ACCESS_COARSE_UPDATES",
+            "ACCESS_FINE_LOCATION",
+            "ACCESS_GPS",
+            "ACCESS_LOCATION",
+            "ACCESS_LOCATION_EXTRA_COMMANDS",
+            "ACCESS_NETWORK_LOCATION",
+            "LOCATION"};
+
+
     /*
      * onCreate:
      * Executed in the creation of the activity. Recover
@@ -111,6 +123,9 @@ public class ApplicationDetail extends Activity {
             int seventhRuleState = 0;
             int eighthRuleState = 0;
             int ninthRuleState = 0;
+
+            // Category Value
+            int CategoryLocation = 0;
 
 
             Cursor permissionQuery = Tools.database.database.rawQuery("SELECT permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
@@ -217,7 +232,21 @@ public class ApplicationDetail extends Activity {
                 riskScore = 100;
             }
             else {
-                riskScore = permissionQuery.getCount();
+
+
+                // ---------------------------------------------------------------------------------
+                // Added by hczhang
+                // Category Factor
+                permissionQuery.moveToFirst();
+                while (permissionQuery.isAfterLast() == false) {
+                    if (Arrays.asList(permissionLocation).contains(permissionQuery.getString(0))) {
+                        CategoryLocation++;
+
+                    }
+                    permissionQuery.moveToNext();
+                }
+                // ---------------------------------------------------------------------------------
+                riskScore = permissionQuery.getCount() + CategoryLocation*2;
             }
 
 
@@ -242,30 +271,6 @@ public class ApplicationDetail extends Activity {
 
 //            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(nameColumn));
             //((TextView)findViewById(R.id.application_detail_risk_score)).setText(permissionQuery.getString(0));
-
-
-            // Added for resubmission
-            MarketSession session = new MarketSession();
-            session.login("zhc0511@gmail.com", "zhc13722747736/");
-//            session.getContext().setAndroidId(myAndroidId);
-//            String query = "maps";
-            Market.AppsRequest appsRequest = Market.AppsRequest.newBuilder()
-                    .setQuery(packageName)
-                    .setStartIndex(0).setEntriesCount(10)
-                    .setWithExtendedInfo(true)
-                    .build();
-
-            session.append(appsRequest, new MarketSession.Callback<Market.AppsResponse>() {
-                @Override
-                public void onResult(Market.ResponseContext context, Market.AppsResponse response) {
-                    // Your code here
-                    // response.getApp(0).getCreator() ...
-                    // see AppsResponse class definition for more infos
-                }
-            });
-            session.flush();
-
-
 // -------------------------------------------------------------------------------------------------
 
             // Retrieving permissions and creating the list
