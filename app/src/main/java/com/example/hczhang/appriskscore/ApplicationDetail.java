@@ -397,18 +397,20 @@ public class ApplicationDetail extends Activity {
             // -------------------------------------------------------------------------------------
 
             Document doc = null;
-            //String packageName = "com.facebook.katana";
-            String content = null;
+
             try {
-                doc = Jsoup.connect("https://play.google.com/store/apps/details?id=" + packageName).get();
-                Elements elements = doc.select("span[itemprop=genre]");
-                content = elements.text();
+                doc = Jsoup.connect("https://play.google.com/store/apps/details?id="+packageName).get();
             } catch (Exception e) {
                 e.printStackTrace();
             }
+            if (doc != null) {
+                Elements elements = doc.select("span[itemprop=genre]");
+                ((TextView)findViewById(R.id.android_market_category)).setText(elements.text());
+            }else {
+                ((TextView)findViewById(R.id.android_market_category)).setText("unknown");
+            }
 
 
-            ((TextView)findViewById(R.id.android_market_category)).setText(content);
 
 // -------------------------------------------------------------------------------------------------
 
@@ -427,7 +429,7 @@ public class ApplicationDetail extends Activity {
             permissionList.setOnItemClickListener(new OnItemClickListener() {
                 public void onItemClick(AdapterView<?> a, View v, int position, long id) {
                     // Opening the retail activity of the selected permission
-                    Intent intent = new Intent(getBaseContext() , PermissionDetail.class);
+                    Intent intent = new Intent(getBaseContext(), PermissionDetail.class);
                     intent.putExtra("permissionId",id);
                     startActivity(intent);
                 }

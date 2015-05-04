@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<string name="android_market_category">Market Category</string>
+	<string name="android_market_category">Google Play Category</string>
     <string name="app_name">App Risk Score</string>
     <string name="alert_database_nottodate_text">Database is not up to date, do you want to update it ?</string>
     <string name="alert_database_nottodate_yes">Yes</string>
