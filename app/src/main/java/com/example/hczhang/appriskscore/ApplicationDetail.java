@@ -3,6 +3,7 @@ package com.example.hczhang.appriskscore;
 /**
  * Created by hczhang on 05/01/15.
  */
+
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
@@ -14,14 +15,19 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageButton;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleCursorAdapter;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Toast;
 
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import java.io.IOException;
 import java.util.Arrays;
 //import com.example.hczhang.appriskscore.*;
 
@@ -128,6 +134,46 @@ public class ApplicationDetail extends Activity {
             "WRITE_SETTINGS",
             "WRITE_SYNC_SETTINGS"};
 
+    public static String GetAppCategory (String packageName) {
+//        String line;
+//        String pageSource;
+//        String category = null;
+//        StringBuffer content = new StringBuffer();
+//
+//        try {
+//
+//            URL domain = new URL("https://play.google.com/store/apps/details?id=");
+//            URL url = new URL(domain + packageName);
+//
+//            HttpURLConnection urlConnection = (HttpURLConnection) url
+//                    .openConnection();
+//            BufferedReader reader = new BufferedReader(new InputStreamReader(
+//                    urlConnection.getInputStream()));
+//            while ((line = reader.readLine()) != null) {
+//                content.append(line);
+//            }
+//        }
+//        catch (MalformedURLException e) {
+//            System.err.println(e);
+//        } catch (IOException e) {
+//            System.err.println(e);
+//        }
+//        pageSource = content.toString();
+
+        Document doc = null;
+        try {
+            doc = Jsoup.connect("https://play.google.com/store/apps/details?id="+ packageName).get();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        if (doc != null) {
+        Elements elements = doc.select("span[itemprop=genre]");
+            return elements.toString();
+        } else {
+            return null;
+        }
+    }
 
 
     /*
@@ -367,29 +413,11 @@ public class ApplicationDetail extends Activity {
                         CategorySystem) * 2;
             }
 
-
+            //String category = GetAppCategory(packageName);
             ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.
                     toString(riskScore));
-            //permissionQuery.moveToNext();
-//            while (permissionQuery.isAfterLast() == false)
-//            {
-//
-//                permissionQuery.moveToNext();
-//               nameColumn = permissionQuery.getColumnIndex("ACCESS_COARSE_LOCATION");
-//            }
-//            permissionQuery.moveToFirst();
-//            for(permissionQuery.moveToFirst();!permissionQuery.isAfterLast();permissionQuery.moveToNext())
-//            {
+            //((TextView)findViewById(R.id.android_market_category)).setText(category);
 
-//                if (nameColumn != -1) {
-//                    break;
-//                }
-//                i++;
-//
-//            }
-
-//            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.toString(nameColumn));
-            //((TextView)findViewById(R.id.application_detail_risk_score)).setText(permissionQuery.getString(0));
 // -------------------------------------------------------------------------------------------------
 
             // Retrieving permissions and creating the list
