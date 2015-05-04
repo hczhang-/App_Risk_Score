@@ -176,6 +176,7 @@ public class ApplicationDetail extends Activity {
     }
 
 
+
     /*
      * onCreate:
      * Executed in the creation of the activity. Recover
