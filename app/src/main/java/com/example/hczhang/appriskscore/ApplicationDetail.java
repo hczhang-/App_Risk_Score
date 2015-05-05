@@ -235,7 +235,7 @@ public class ApplicationDetail extends Activity {
             int eighthRuleState = 0;
             int ninthRuleState = 0;
 
-            // Category Value
+            // Count Permission Category
             int CategoryLocation = 0;
             int CategoryPhoneIdentity = 0;
             int CategoryMessages = 0;
@@ -244,18 +244,21 @@ public class ApplicationDetail extends Activity {
             int CategoryPaying = 0;
             int CategorySystem = 0;
 
-            double locationWeight = 1;
-            double phoneIdentityWeight = 1;
-            double messagesWeight = 1;
-            double contactsWeight = 1;
-            double calendarWeight = 1;
-            double payingWeight = 1;
-            double systemWeight = 1;
-
+            // Set Different Risk Levels
             double r1 = 5;
             double r2 = 3;
             double r3 = 1;
             double r4 = 0.5;
+
+            // Initialise all the permission weights;
+            double locationWeight = 0;
+            double phoneIdentityWeight = 0;
+            double messagesWeight = 0;
+            double contactsWeight = 0;
+            double calendarWeight = 0;
+            double payingWeight = 0;
+            double systemWeight = 0;
+
 
 
             Cursor permissionQuery = Tools.database.database.rawQuery("SELECT permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
@@ -420,11 +423,6 @@ public class ApplicationDetail extends Activity {
                 }
 
 
-                // ---------------------------------------------------------------------------------
-
-                // The Risk Score Algorithm
-                // f1 = (CategoryLocation + CategoryPhoneIdentity + CategoryMessages + CategoryContacts + CategoryCalendar + CategoryPaying + CategorySystem) / permissionQuery.getCount();
-//
 //                if (category.equals("music"))
 //                {
                     locationWeight = r4;
@@ -435,6 +433,7 @@ public class ApplicationDetail extends Activity {
                     payingWeight = r1;
                     systemWeight = r1;
 //                }
+
                 f2 =  ( CategoryLocation * locationWeight +
                         CategoryPhoneIdentity * phoneIdentityWeight +
                         CategoryMessages * messagesWeight +
@@ -442,7 +441,8 @@ public class ApplicationDetail extends Activity {
                         CategoryCalendar * calendarWeight +
                         CategoryPaying * payingWeight +
                         CategorySystem * systemWeight ) /
-                        ( r1 * (CategoryLocation + CategoryPhoneIdentity + CategoryMessages + CategoryContacts + CategoryCalendar + CategoryPaying + CategorySystem ));
+                        ( r1 * (CategoryLocation + CategoryPhoneIdentity + CategoryMessages +
+                                CategoryContacts + CategoryCalendar + CategoryPaying + CategorySystem ));
 
                 riskScore = f2 * 100;
             }
