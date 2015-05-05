@@ -361,7 +361,11 @@ public class ApplicationDetail extends Activity {
             {
                 riskScore = 100;
             }
-            else {
+            else if (permissionQuery.getCount() == 0)
+            {
+                riskScore = 0;
+
+            } else {
 
                 // ---------------------------------------------------------------------------------
                 // Added by hczhang
@@ -399,10 +403,38 @@ public class ApplicationDetail extends Activity {
 
                 }
                 // ---------------------------------------------------------------------------------
+                Document doc = null;
+                String category = null;
+
+                try {
+                    doc = Jsoup.connect("https://play.google.com/store/apps/details?id="+packageName).get();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (doc != null) {
+                    Elements elements = doc.select("span[itemprop=genre]");
+                    category = elements.text();
+                    ((TextView)findViewById(R.id.android_market_category)).setText(elements.text());
+                }else {
+                    ((TextView)findViewById(R.id.android_market_category)).setText("unknown");
+                }
+
+
+                // ---------------------------------------------------------------------------------
 
                 // The Risk Score Algorithm
                 // f1 = (CategoryLocation + CategoryPhoneIdentity + CategoryMessages + CategoryContacts + CategoryCalendar + CategoryPaying + CategorySystem) / permissionQuery.getCount();
-
+//
+//                if (category.equals("music"))
+//                {
+                    locationWeight = r4;
+                    phoneIdentityWeight = r2;
+                    messagesWeight = r1;
+                    contactsWeight = r2;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r1;
+//                }
                 f2 =  ( CategoryLocation * locationWeight +
                         CategoryPhoneIdentity * phoneIdentityWeight +
                         CategoryMessages * messagesWeight +
@@ -421,19 +453,7 @@ public class ApplicationDetail extends Activity {
                     toString(riskScore));
             // -------------------------------------------------------------------------------------
 
-            Document doc = null;
 
-            try {
-                doc = Jsoup.connect("https://play.google.com/store/apps/details?id="+packageName).get();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            if (doc != null) {
-                Elements elements = doc.select("span[itemprop=genre]");
-                ((TextView)findViewById(R.id.android_market_category)).setText(elements.text());
-            }else {
-                ((TextView)findViewById(R.id.android_market_category)).setText("unknown");
-            }
 
 
 
