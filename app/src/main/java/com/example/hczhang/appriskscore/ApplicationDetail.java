@@ -221,7 +221,9 @@ public class ApplicationDetail extends Activity {
 // -------------------------------------------------------------------------------------------------
             // Added by hczhang
             // Manually Risk Score Method based on Kirin Rules
-            int riskScore = 0;
+            double riskScore = 0;
+            double f1 = 0;
+            double f2 = 0;
 
             int firstRuleState = 0;
             int secondRuleState = 0;
@@ -241,6 +243,19 @@ public class ApplicationDetail extends Activity {
             int CategoryCalendar = 0;
             int CategoryPaying = 0;
             int CategorySystem = 0;
+
+            double locationWeight = 1;
+            double phoneIdentityWeight = 1;
+            double messagesWeight = 1;
+            double contactsWeight = 1;
+            double calendarWeight = 1;
+            double payingWeight = 1;
+            double systemWeight = 1;
+
+            double r1 = 5;
+            double r2 = 3;
+            double r3 = 1;
+            double r4 = 0.5;
 
 
             Cursor permissionQuery = Tools.database.database.rawQuery("SELECT permission.name AS name FROM relation_application_permission INNER JOIN permission ON relation_application_permission.permission = permission.id WHERE relation_application_permission.application = ? ORDER BY permission.name COLLATE NOCASE ASC;", new String[] {applicationId});
@@ -367,7 +382,6 @@ public class ApplicationDetail extends Activity {
                     }
                     if (Arrays.asList(permissionContacts).contains(permissionQuery.getString(0))) {
                         CategoryContacts++;
-
                     }
                     if (Arrays.asList(permissionCalendar).contains(permissionQuery.getString(0))) {
                         CategoryCalendar++;
@@ -385,14 +399,25 @@ public class ApplicationDetail extends Activity {
 
                 }
                 // ---------------------------------------------------------------------------------
-                riskScore = permissionQuery.getCount()/2 + (CategoryLocation + CategoryPhoneIdentity
-                        + CategoryMessages + CategoryContacts + CategoryCalendar + CategoryPaying +
-                        CategorySystem) * 2;
+
+                // The Risk Score Algorithm
+                // f1 = (CategoryLocation + CategoryPhoneIdentity + CategoryMessages + CategoryContacts + CategoryCalendar + CategoryPaying + CategorySystem) / permissionQuery.getCount();
+
+                f2 =  ( CategoryLocation * locationWeight +
+                        CategoryPhoneIdentity * phoneIdentityWeight +
+                        CategoryMessages * messagesWeight +
+                        CategoryContacts * contactsWeight +
+                        CategoryCalendar * calendarWeight +
+                        CategoryPaying * payingWeight +
+                        CategorySystem * systemWeight ) /
+                        ( r1 * (CategoryLocation + CategoryPhoneIdentity + CategoryMessages + CategoryContacts + CategoryCalendar + CategoryPaying + CategorySystem ));
+
+                riskScore = f2 * 100;
             }
 
 
 
-            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Integer.
+            ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Double.
                     toString(riskScore));
             // -------------------------------------------------------------------------------------
 
