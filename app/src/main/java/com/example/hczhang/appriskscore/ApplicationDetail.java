@@ -27,7 +27,6 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.Arrays;
 
 public class ApplicationDetail extends Activity {
@@ -36,7 +35,8 @@ public class ApplicationDetail extends Activity {
     private String packageName;
     private Context context;
 
-
+// -------------------------------------------------------------------------------------------------
+    // Added by hczhang
     // Permissions of Location
     private static final String[] permissionLocation = {"ACCESS_ASSISTED_GPS",
             "ACCESS_COARSE_LOCATION",
@@ -132,25 +132,7 @@ public class ApplicationDetail extends Activity {
             "WRITE_SECURE_SETTINGS",
             "WRITE_SETTINGS",
             "WRITE_SYNC_SETTINGS"};
-
-    public static String GetAppCategory (String packageName) {
-
-
-        Document doc = null;
-        try {
-            doc = Jsoup.connect("https://play.google.com/store/apps/details?id=" + packageName).get();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        if (doc != null) {
-        Elements elements = doc.select("span[itemprop=genre]");
-            return elements.text();
-        } else {
-            return null;
-        }
-    }
-
+// -------------------------------------------------------------------------------------------------
 
 
     /*
@@ -405,7 +387,8 @@ public class ApplicationDetail extends Activity {
                     permissionQuery.moveToNext();
 
                 }
-                // ---------------------------------------------------------------------------------
+
+                // Get an app's category from Google Play
                 Document doc = null;
                 String category = null;
 
@@ -425,14 +408,23 @@ public class ApplicationDetail extends Activity {
 
 //                if (category.equals("music"))
 //                {
-                    locationWeight = r4;
-                    phoneIdentityWeight = r2;
-                    messagesWeight = r1;
-                    contactsWeight = r2;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r1;
+//                    locationWeight = r4;
+//                    phoneIdentityWeight = r3;
+//                    messagesWeight = r1;
+//                    contactsWeight = r2;
+//                    calendarWeight = r4;
+//                    payingWeight = r1;
+//                    systemWeight = r2;
 //                }
+
+                locationWeight = r4;
+                phoneIdentityWeight = r3;
+                messagesWeight = r1;
+                contactsWeight = r1;
+                calendarWeight = r4;
+                payingWeight = r1;
+                systemWeight = r1;
+
 
                 f2 =  ( CategoryLocation * locationWeight +
                         CategoryPhoneIdentity * phoneIdentityWeight +
@@ -451,10 +443,6 @@ public class ApplicationDetail extends Activity {
 
             ((TextView)findViewById(R.id.application_detail_risk_score)).setText(Double.
                     toString(riskScore));
-            // -------------------------------------------------------------------------------------
-
-
-
 
 
 // -------------------------------------------------------------------------------------------------
