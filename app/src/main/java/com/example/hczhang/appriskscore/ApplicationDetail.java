@@ -413,96 +413,97 @@ public class ApplicationDetail extends Activity {
                 }
 
                 // Based on different categories to set each permission categories a proper weight
-                if (category.equals("Business"))
-                {
-                    locationWeight = r1;
-                    phoneIdentityWeight = r3;
-                    messagesWeight = r1;
-                    contactsWeight = r2;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r2;
-                } else if (category.equals("Communication")){
-                    locationWeight = r4;
-                    phoneIdentityWeight = r3;
-                    messagesWeight = r1;
-                    contactsWeight = r1;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r3;
-                }
-                else if (category.equals("Entertainment")){
-                    locationWeight = r4;
-                    phoneIdentityWeight = r3;
-                    messagesWeight = r1;
-                    contactsWeight = r1;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r1;
-                }
-                else if (category.equals("Finance")){
-                    locationWeight = r4;
-                    phoneIdentityWeight = r4;
-                    messagesWeight = r1;
-                    contactsWeight = r1;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r4;
-                }
-                else if (category.equals("Lifestyle")){
-                    locationWeight = r4;
-                    phoneIdentityWeight = r2;
-                    messagesWeight = r1;
-                    contactsWeight = r1;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r1;
-                }
-                else if (category.equals("Media")){
-                    locationWeight = r4;
-                    phoneIdentityWeight = r3;
-                    messagesWeight = r3;
-                    contactsWeight = r1;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r1;
-                }
-                else if (category.equals("Social")){
-                    locationWeight = r4;
-                    phoneIdentityWeight = r3;
-                    messagesWeight = r1;
-                    contactsWeight = r1;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r1;
-                }
-                else if (category.equals("Tools")){
-                    locationWeight = r4;
-                    phoneIdentityWeight = r3;
-                    messagesWeight = r1;
-                    contactsWeight = r1;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r3;
-                }
-                else if (category.equals("Games")){
-                    locationWeight = r4;
-                    phoneIdentityWeight = r3;
-                    messagesWeight = r1;
-                    contactsWeight = r1;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r1;
-                }
-                else
-                {
-                    locationWeight = r4;
-                    phoneIdentityWeight = r3;
-                    messagesWeight = r1;
-                    contactsWeight = r1;
-                    calendarWeight = r4;
-                    payingWeight = r1;
-                    systemWeight = r1;
+                switch (category) {
+                    case "Business":
+                        locationWeight = r1;
+                        phoneIdentityWeight = r3;
+                        messagesWeight = r1;
+                        contactsWeight = r2;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r2;
+                        break;
+                    case "Communication":
+                        locationWeight = r4;
+                        phoneIdentityWeight = r3;
+                        messagesWeight = r1;
+                        contactsWeight = r1;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r3;
+                        break;
+                    case "Entertainment":
+                        locationWeight = r4;
+                        phoneIdentityWeight = r3;
+                        messagesWeight = r1;
+                        contactsWeight = r1;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r1;
+                        break;
+                    case "Finance":
+                        locationWeight = r4;
+                        phoneIdentityWeight = r4;
+                        messagesWeight = r1;
+                        contactsWeight = r1;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r4;
+                        break;
+                    case "Lifestyle":
+                        locationWeight = r4;
+                        phoneIdentityWeight = r2;
+                        messagesWeight = r1;
+                        contactsWeight = r1;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r1;
+                        break;
+                    case "Media":
+                        locationWeight = r4;
+                        phoneIdentityWeight = r3;
+                        messagesWeight = r3;
+                        contactsWeight = r1;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r1;
+                        break;
+                    case "Social":
+                        locationWeight = r4;
+                        phoneIdentityWeight = r3;
+                        messagesWeight = r1;
+                        contactsWeight = r1;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r1;
+                        break;
+                    case "Tools":
+                        locationWeight = r4;
+                        phoneIdentityWeight = r3;
+                        messagesWeight = r1;
+                        contactsWeight = r1;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r3;
+                        break;
+                    case "Games":
+                        locationWeight = r4;
+                        phoneIdentityWeight = r3;
+                        messagesWeight = r1;
+                        contactsWeight = r1;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r1;
+                        break;
+                    default:
+                        locationWeight = r4;
+                        phoneIdentityWeight = r3;
+                        messagesWeight = r1;
+                        contactsWeight = r1;
+                        calendarWeight = r4;
+                        payingWeight = r1;
+                        systemWeight = r1;
+                        break;
                 }
 
                 // The formula of risk score
