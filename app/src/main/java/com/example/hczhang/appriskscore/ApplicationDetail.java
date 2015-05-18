@@ -28,6 +28,7 @@ import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
 
 import java.util.Arrays;
+import java.util.Locale;
 
 public class ApplicationDetail extends Activity {
     private ListView permissionList; // Graphical component managing the permissions list
@@ -37,7 +38,8 @@ public class ApplicationDetail extends Activity {
 
 // -------------------------------------------------------------------------------------------------
     // Added by hczhang
-    // Permissions of Location
+    // Define the classification of permissions
+    // Permissions of Category Location
     private static final String[] permissionLocation = {"ACCESS_ASSISTED_GPS",
             "ACCESS_COARSE_LOCATION",
             "ACCESS_COARSE_UPDATES",
@@ -49,7 +51,7 @@ public class ApplicationDetail extends Activity {
             "LOCATION"};
 
 
-    // Permissions of Identity
+    // Permissions of Category Identity
     private static final String[] permissionPhoneIdentity = {"AUTHENTICATE_ACCOUNTS",
             "GET_ACCOUNTS",
             "MANAGE_ACCOUNTS",
@@ -60,7 +62,7 @@ public class ApplicationDetail extends Activity {
             "WRITE_OWNER_DATA",
             "WRITE_PROFILE"};
 
-    // Permissions of messages
+    // Permissions of Category messages
     private static final String[] permissionMessages = {"BROADCAST_SMS",
             "DELETE_SMS",
             "READ_SMS",
@@ -71,23 +73,23 @@ public class ApplicationDetail extends Activity {
             "RECEIVE_WAP_PUSH",
             "WRITE_SMS"};
 
-    // Permissions of contacts
+    // Permissions of Category contacts
     private static final String[] permissionContacts = {"READ_CONTACTS",
             "WRITE_CONTACTS"};
 
-    // Permissions of calender
+    // Permissions of Category calender
     private static final String[] permissionCalendar = {"READ_CALENDAR",
             "READ_DIARY",
             "WRITE_CALENDAR"};
 
-    // Permissions accessing payment
+    // Permissions of Category accessing payment
     private static final String[] permissionPaying = {"CALL",
             "CALL_PHONE",
             "CALL_PRIVILEGED",
             "SEND_SMS",
             "SEND_SMS_NO_CONFIRMATION"};
 
-    // Permissions of system
+    // Permissions of Category system
     private static final String[] permissionSystem = {"ACCESS_MTP",
             "BLUETOOTH_ADMIN",
             "BRICK",
@@ -391,9 +393,14 @@ public class ApplicationDetail extends Activity {
                 // Get an app's category from Google Play
                 Document doc = null;
                 String category = null;
+                Locale locale = null;
+                if (locale == null) {
+                    locale = Locale.getDefault();
+                }
 
                 try {
-                    doc = Jsoup.connect("https://play.google.com/store/apps/details?id="+packageName).get();
+//                    doc = Jsoup.connect("https://play.google.com/store/apps/details?id="+packageName).get();
+                    doc = Jsoup.connect("market://details?id=com.instagram.android"+"&hl=" + locale.getISO3Language()).get();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -405,26 +412,100 @@ public class ApplicationDetail extends Activity {
                     ((TextView)findViewById(R.id.android_market_category)).setText("unknown");
                 }
 
+                // Based on different categories to set each permission categories a proper weight
+                if (category.equals("Business"))
+                {
+                    locationWeight = r1;
+                    phoneIdentityWeight = r3;
+                    messagesWeight = r1;
+                    contactsWeight = r2;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r2;
+                } else if (category.equals("Communication")){
+                    locationWeight = r4;
+                    phoneIdentityWeight = r3;
+                    messagesWeight = r1;
+                    contactsWeight = r1;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r3;
+                }
+                else if (category.equals("Entertainment")){
+                    locationWeight = r4;
+                    phoneIdentityWeight = r3;
+                    messagesWeight = r1;
+                    contactsWeight = r1;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r1;
+                }
+                else if (category.equals("Finance")){
+                    locationWeight = r4;
+                    phoneIdentityWeight = r4;
+                    messagesWeight = r1;
+                    contactsWeight = r1;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r4;
+                }
+                else if (category.equals("Lifestyle")){
+                    locationWeight = r4;
+                    phoneIdentityWeight = r2;
+                    messagesWeight = r1;
+                    contactsWeight = r1;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r1;
+                }
+                else if (category.equals("Media")){
+                    locationWeight = r4;
+                    phoneIdentityWeight = r3;
+                    messagesWeight = r3;
+                    contactsWeight = r1;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r1;
+                }
+                else if (category.equals("Social")){
+                    locationWeight = r4;
+                    phoneIdentityWeight = r3;
+                    messagesWeight = r1;
+                    contactsWeight = r1;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r1;
+                }
+                else if (category.equals("Tools")){
+                    locationWeight = r4;
+                    phoneIdentityWeight = r3;
+                    messagesWeight = r1;
+                    contactsWeight = r1;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r3;
+                }
+                else if (category.equals("Games")){
+                    locationWeight = r4;
+                    phoneIdentityWeight = r3;
+                    messagesWeight = r1;
+                    contactsWeight = r1;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r1;
+                }
+                else
+                {
+                    locationWeight = r4;
+                    phoneIdentityWeight = r3;
+                    messagesWeight = r1;
+                    contactsWeight = r1;
+                    calendarWeight = r4;
+                    payingWeight = r1;
+                    systemWeight = r1;
+                }
 
-//                if (category.equals("music"))
-//                {
-//                    locationWeight = r4;
-//                    phoneIdentityWeight = r3;
-//                    messagesWeight = r1;
-//                    contactsWeight = r2;
-//                    calendarWeight = r4;
-//                    payingWeight = r1;
-//                    systemWeight = r2;
-//                }
-
-                locationWeight = r4;
-                phoneIdentityWeight = r3;
-                messagesWeight = r1;
-                contactsWeight = r1;
-                calendarWeight = r4;
-                payingWeight = r1;
-                systemWeight = r1;
-
+                // The formula of risk score
 
                 f2 =  ( CategoryLocation * locationWeight +
                         CategoryPhoneIdentity * phoneIdentityWeight +

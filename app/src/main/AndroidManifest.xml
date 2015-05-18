@@ -20,5 +20,6 @@
         <activity android:name=".PermissionDetail" />
         <activity android:name=".Preference" />
     </application>
+    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>

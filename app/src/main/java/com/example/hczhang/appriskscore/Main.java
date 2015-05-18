@@ -8,7 +8,7 @@ package com.example.hczhang.appriskscore;
  * developed by Carlo Criniti.
  * This is the source code link. https://code.google.com/p/android-permission-explorer/source/browse/
  * Thanks for him to provide me the source code for my research project
- * It is so good to be used as this project's start point.
+ * It is just right to be used as this project's start point.
  * After I understand the whole structure of this source code and rewrite all the comments of the
  * code (Since originally the comments is French)
  * Originally, the app can scan all the apps on the phone, get the apps' name , version, categories
@@ -18,6 +18,7 @@ package com.example.hczhang.appriskscore;
  * So this app is just right for me to implement the risk score method.
  *
  * All of my work will followed by // Added by hczhang in both java class and xml file
+ * Most of the changes are in ApplicationDetail.java
  */
 
 import android.app.Activity;
